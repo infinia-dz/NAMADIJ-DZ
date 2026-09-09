@@ -198,7 +198,7 @@ summary{font-size:16px;line-height:1.6}details p{font-size:14px;line-height:1.8}
 </div></div></section>
 
 <section class="order" id="order"><div class="wrap orderGrid"><div class="offer"><div class="eyebrow">خدمة يومية في برنامج واحد</div><h2>خلي آلاف النماذج عندك.</h2><p>إذا كنت كاتب عمومي، محامي، موظف إدارة، أو تخدم في الطباعة والمكتبة، NAMADIJ DZ يختصر عليك وقت كبير في البحث وإعداد الوثائق.</p><ul class="list"><li>أكثر من 8000 نموذج إداري وقانوني</li><li>نماذج احترافية جاهزة للتعمير</li><li>بحث سريع وتنظيم واضح</li><li>تعديل وطباعة بسهولة</li><li>تفعيل دائم مدى الحياة ♾️</li></ul></div>
-<div class="formBox"><div id="orderSuccess"><div class="success-icon">✓</div><h2>تمت الطلبية بنجاح</h2><p>شكراً لطلبك من NAMADIJ DZ.<br>سيتم الاتصال بكم لتأكيد الطلبية في غضون 24 ساعة.</p><a id="successWA" target="_blank" rel="noopener">التواصل معنا عبر واتساب</a></div><div id="orderFormWrap"><div class="formTitle">أكمل طلبك</div><form class="form" id="orderForm" onsubmit="order(event)"><div><label>الاسم الكامل</label><input id="name" required placeholder="اكتب اسمك الكامل"></div><div><label>رقم الهاتف</label><input id="phone" type="tel" required placeholder="0555 12 34 56"></div><div><label>الولاية</label><select id="wilaya" required><option value="">اختر الولاية</option></select></div><div><label>البلدية</label><select id="commune" required disabled><option value="">اختر الولاية أولاً</option></select></div><div id="deliverySection" class="delivery-section-hidden" style="grid-column:1/-1"><label>🚚 اختر طريقة التوصيل</label><div class="delivery-options" id="deliveryOptions"></div><div id="officeBox" class="office-box-hidden"><div id="officeChooser" class="office-chooser-hidden"><label for="officeSelect">اختر المكتب</label><select id="officeSelect"><option value="">اختر المكتب</option></select></div><div id="officeAddress"></div></div></div><div class="summary" id="priceSummary">سعر المنتج <b>4900 دج</b> &nbsp; + &nbsp; التوصيل <b id="shipVal">—</b><span class="total" id="totalVal">الإجمالي: —</span></div><button class="submit" type="submit">أطلب الان</button></form></div></div></div></section>
+<div class="formBox"><div id="orderSuccess"><div class="success-icon">✓</div><h2>تمت الطلبية بنجاح</h2><p>شكراً لطلبك من NAMADIJ DZ.<br>سيتم الاتصال بكم لتأكيد الطلبية في غضون 24 ساعة.</p><a id="successWA" target="_blank" rel="noopener">التواصل معنا عبر واتساب</a></div><div id="orderFormWrap"><div class="formTitle">أكمل طلبك</div><form class="form" id="orderForm" onsubmit="order(event)"><div><label>الاسم الكامل</label><input id="name" required placeholder="اكتب اسمك الكامل"></div><div><label>رقم الهاتف</label><input id="phone" type="tel" inputmode="numeric" autocomplete="tel" required minlength="10" maxlength="10" pattern="0[567][0-9]{8}" title="أدخل رقم هاتف من 10 أرقام يبدأ بـ 05 أو 06 أو 07" placeholder="0555123456"></div><div><label>الولاية</label><select id="wilaya" required><option value="">اختر الولاية</option></select></div><div><label>البلدية</label><select id="commune" required disabled><option value="">اختر الولاية أولاً</option></select></div><div id="deliverySection" class="delivery-section-hidden" style="grid-column:1/-1"><label>🚚 اختر طريقة التوصيل</label><div class="delivery-options" id="deliveryOptions"></div><div id="officeBox" class="office-box-hidden"><div id="officeChooser" class="office-chooser-hidden"><label for="officeSelect">اختر المكتب</label><select id="officeSelect"><option value="">اختر المكتب</option></select></div><div id="officeAddress"></div></div></div><div class="summary" id="priceSummary">سعر المنتج <b>4900 دج</b> &nbsp; + &nbsp; التوصيل <b id="shipVal">—</b><span class="total" id="totalVal">الإجمالي: —</span></div><button class="submit" type="submit">أطلب الان</button></form></div></div></div></section>
 
 <section><div class="wrap"><div class="head"><div class="eyebrow">مناسب للاستعمال المهني</div><h2>مصمم للي يتعامل مع الوثائق يومياً</h2><p>البرنامج يركز على شيء واحد: تخليك تلقى النموذج وتخدم عليه بأقل وقت ممكن.</p></div><div class="trust"><div><b>8000+</b><span>نموذج داخل البرنامج</span></div><div><b>♾️</b><span>تفعيل دائم مدى الحياة</span></div><div><b>3 خطوات</b><span>ابحث • عدّل • اطبع</span></div></div></div></section>
 
@@ -211,15 +211,61 @@ summary{font-size:16px;line-height:1.6}details p{font-size:14px;line-height:1.8}
 const GOOGLE_SHEET_URL='https://script.google.com/macros/s/AKfycbzGqYqFpWEGMGn1i6JbHMQVUO_S-20mp2gFTlRrXe3K9hxzp04jR9v_9Fze3RAGtfcvwA/exec';
 const WHATSAPP_NUMBER='213560122410';
 
+document.addEventListener('DOMContentLoaded',()=>{
+  const phone=document.getElementById('phone');
+  if(phone){
+    phone.addEventListener('input',()=>{
+      phone.value=phone.value.replace(/\\D/g,'').slice(0,10);
+      phone.setCustomValidity('');
+    });
+  }
+});
+
 async function order(e){
   e.preventDefault();
 
+  const formEl=document.getElementById('orderForm');
+  const phoneEl=document.getElementById('phone');
+
+  // التحقق من أن جميع الحقول المطلوبة مكتملة
+  if(!formEl.checkValidity()){
+    formEl.reportValidity();
+    return;
+  }
+
+  const phone=phoneEl.value.trim();
+
+  // رقم الهاتف الجزائري: 10 أرقام ويبدأ بـ 05 أو 06 أو 07
+  if(!/^0[567]\\d{8}$/.test(phone)){
+    phoneEl.setCustomValidity('رقم الهاتف يجب أن يكون 10 أرقام ويبدأ بـ 05 أو 06 أو 07.');
+    phoneEl.reportValidity();
+    phoneEl.setCustomValidity('');
+    phoneEl.focus();
+    return;
+  }
+
+  const delivery=document.querySelector('input[name="deliveryType"]:checked');
+  if(!delivery){
+    alert('يرجى اختيار طريقة التوصيل.');
+    return;
+  }
+
+  if(delivery.value==='office'){
+    const officeSelect=document.getElementById('officeSelect');
+    if(officeSelect && !officeSelect.value){
+      officeSelect.setCustomValidity('يرجى اختيار المكتب.');
+      officeSelect.reportValidity();
+      officeSelect.setCustomValidity('');
+      officeSelect.focus();
+      return;
+    }
+  }
+
   const btn=document.querySelector('#orderForm .submit');
   const n=document.getElementById('name').value.trim();
-  const p=document.getElementById('phone').value.trim();
+  const p=phone;
   const w=document.getElementById('wilaya').value;
   const c=document.getElementById('commune').value;
-  const delivery=document.querySelector('input[name="deliveryType"]:checked');
 
   let typeLivraison='المنزل';
   let prixLivraison=0;
